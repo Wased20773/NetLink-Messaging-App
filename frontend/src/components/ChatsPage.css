@@ -1,0 +1,327 @@
+/* Color Theme */
+/* https://coolors.co/25333c-445359-1ab185-158f6c-0f6c52-3a89ce-266cab-df3d3c-c22626-e0e0e0 */
+:root {
+  --Gunmetal: rgb(37, 51, 60);
+  --OuterSpace: rgb(68, 83, 89);
+  --Mint: rgb(26, 177, 133);
+  --Sea-Green: rgb(21, 143, 108);
+  --DarkMint: rgb(15, 108, 82);
+  --Tufts-Blue: rgb(58, 137, 206);
+  --Azul: rgb(38, 108, 171);
+  --Poppy: rgb(223, 61, 60);
+  --Fire-Engine-Red: rgb(194, 38, 38);
+  --Silver: rgb(204, 204, 204);
+}
+
+button {
+  transition: 0.35s;
+  cursor: pointer;
+}
+
+button:hover {
+  transition: 0.35s;
+}
+
+.tab-link {
+  background: none;
+  border: none;
+  border-radius: 0.25cm;
+  padding: 10px;
+}
+
+.tab-link:hover {
+  background-color: white;
+}
+
+.kebab-button {
+  border: none;
+  background: none;
+  border-radius: 50%;
+}
+
+.kebab-button:hover {
+  background-color: white;
+}
+
+.kebab-button-chat {
+  border: none;
+  border-radius: 50%;
+  background: none;
+  margin-left: auto;
+}
+
+.kebab-button-chat:hover {
+  background-color: var(--Silver);
+}
+
+.kebab-options-group {
+  position: absolute;
+  bottom: -100%;
+  right: 0;
+  transform: translateX(-50%);
+
+  background-color: var(--Silver);
+  border: none;
+  border-radius: 0.25cm;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+  cursor: pointer;
+  z-index: 100;
+
+  box-shadow: 3px 3px 5px black;
+}
+
+.kebab-option-buttons {
+  background-color: white;
+  border: 1px solid black;
+  margin: 2px;
+
+  border-radius: 0.15cm;
+}
+
+.kebab-option-buttons:hover {
+  background-color: var(--Silver);
+}
+
+.chatpage-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent content from stretching out of bounds */
+}
+
+/* ----- For side bar ----- */
+
+.sidebar-container {
+  width: 80px;
+  border-right: 5px solid var(--DarkMint);
+  background: var(--Mint);
+  /* background: linear-gradient(to bottom, var(--Mint), var(--DarkMint)); */
+}
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-button {
+  padding: 8px 0;
+}
+
+.sidebar-button:last-child {
+  margin-top: auto;
+  margin-bottom: 25px;
+}
+
+.account-button {
+  margin-top: auto;
+  padding: 0 10px;
+}
+
+.sidebar-users-picture {
+  border-radius: 50%;
+  width: 100%;
+}
+
+/* ----- For Contents ----- */
+
+.add-button {
+  background-color: var(--Mint);
+  border: none;
+  border-radius: 0.25cm;
+  width: 200px;
+  margin: 20px 0 10px 0;
+}
+
+.add-button:hover {
+  background-color: var(--Sea-Green);
+}
+
+.contents-separater {
+  width: 80%;
+  border: 1px solid grey;
+  margin: 10px 0;
+}
+
+#Messages {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  flex-direction: column;
+}
+
+.svg-group-chat-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 10px 0;
+}
+
+.info-your-chats {
+  margin-bottom: 10px;
+  color: grey;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.svg-group-chat-button > div {
+  margin-right: 10px;
+}
+
+.chat-container {
+  width: 100%;
+}
+
+.chat-button {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  background-color: white;
+  border: none;
+  padding: 10px 0;
+
+  cursor: pointer;
+}
+
+.chat-button:hover {
+  background-color: var(--Silver);
+  border-left: 5px solid var(--Azul);
+  border-right: 5px solid var(--Azul);
+}
+
+.chat-button:click {
+  background-color: var(--Tufts-Blue);
+}
+.add-user-button {
+  background-color: var(--Mint);
+  border: none;
+  border-radius: 1cm;
+
+  margin-left: auto;
+  padding: 10px 20px;
+  margin-right: 10px;
+}
+
+.add-user-button:hover {
+  background-color: var(--Sea-Green);
+}
+
+/* displays the Messages contents at default */
+.tabcontent:not(#Messages) {
+  display: none;
+}
+
+.tabcontent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.contents-users-picture {
+  width: 50%;
+  border-radius: 50%;
+  margin-bottom: 50px;
+  /* border-bottom: 1px solid grey; */
+}
+
+.picture-chat {
+  /* width: 40px;
+  height: 40px; */
+  border-radius: 50%;
+  padding: 0 15px 0 10px;
+  /* border-bottom: 1px solid grey; */
+}
+
+.kebab-chat-container {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.contents-container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  /* background-color: blue; */
+  overflow: hidden; /* Prevent stretching */
+}
+
+.contents-bar {
+  height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+  /* border-right: 2.5px solid var(--DarkMint); */
+  background-color: var(--Mint);
+  display: flex;
+  align-items: center; /* Center the text vertically */
+  /* justify-content: space-evenly; */
+  /* padding: 0 10px; */
+}
+
+.input-search {
+  width: 100%;
+  margin-left: 10px;
+  padding: 3px 0 3px 10px;
+  background: none;
+  border: 1px solid black;
+  border-radius: 1cm;
+}
+
+.search-button {
+  background: white;
+  border: none;
+  border-radius: 0.25cm;
+  margin-left: 5px;
+  padding: 4px 15px 4px 15px;
+}
+
+.search-button:hover {
+  background-color: var(--Silver);
+}
+
+.contents-of-sidebar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  /* padding: 15px; */
+  flex: 1; /* Take up the remaining height */
+  overflow-y: auto; /* Enable scrolling for overflowing content */
+  overflow-x: hidden; /* Enable scrolling for overflowing content */
+  background-color: white;
+  /* padding: 10px; */
+}
+
+.chatbox-container {
+  flex: 1; /* Take up all remaining horizontal space */
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  overflow: hidden; /* Prevent stretching */
+}
+
+.chatbox-bar {
+  height: 34px;
+  /* border-left: 2.5px solid var(--DarkMint); */
+  background-color: var(--Mint);
+  display: flex;
+  align-items: center;
+  /* padding: 0 10px; */
+}
+
+.chatbox-content {
+  background: url("../images/ChatBoxWallpapers/EmojieMessage.avif");
+  background-size: contain;
+  flex: 1; /* Take up remaining vertical space */
+  overflow-y: auto; /* Enable scrolling for the chatbox content */
+  /* padding: 10px; */
+}
