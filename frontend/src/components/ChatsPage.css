@@ -143,8 +143,14 @@ button:hover {
 
 .contents-separater {
   width: 80%;
-  border: 1px solid grey;
-  margin: 10px 0;
+  border: 4px solid var(--Silver);
+
+  border-radius: 1cm;
+  margin-top: 10px;
+}
+.separater-line {
+  border: 2px solid grey;
+  border-radius: 1cm;
 }
 
 #Messages {
@@ -162,7 +168,8 @@ button:hover {
   margin: 10px 0;
 }
 
-.info-your-chats {
+.content-info {
+  margin-top: 10px;
   margin-bottom: 10px;
   color: grey;
   display: flex;

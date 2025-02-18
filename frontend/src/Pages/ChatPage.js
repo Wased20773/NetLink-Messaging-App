@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const ChatPage = () => {
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user, selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const [loggedUser, setLoggedUser] = useState(null);
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -22,6 +23,7 @@ const ChatPage = () => {
   const [isDataReady, setIsDataReady] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   const toggleAddUsersButton = () => {
     if (hasSearched) {
@@ -139,7 +141,13 @@ const ChatPage = () => {
         <div className="contents-of-sidebar">
           <Account />
           <DarkOrLight />
-          <Favorites />
+          <Favorites
+            user={user}
+            loggedUser={loggedUser}
+            refreshTrigger={refreshTrigger}
+            selectedChat={selectedChat}
+            setSelectedChat={setSelectedChat}
+          />
           <MyChats
             toggleAddUsersButton={toggleAddUsersButton}
             isAdding={isAdding}
@@ -148,7 +156,13 @@ const ChatPage = () => {
             searchResult={searchResult}
             user={user}
             setLoadingChat={setLoadingChat}
+            selectedChat={selectedChat}
             setSelectedChat={setSelectedChat}
+            chats={chats}
+            setChats={setChats}
+            loggedUser={loggedUser}
+            setLoggedUser={setLoggedUser}
+            setRefreshTrigger={setRefreshTrigger}
             // setLoadingChat={setLoadingChat}
           />
           <SearchBar />

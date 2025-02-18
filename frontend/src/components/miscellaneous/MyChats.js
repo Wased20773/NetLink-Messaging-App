@@ -4,7 +4,7 @@ import UserListItem from "../userAvatar/UserListItem";
 import axios from "axios";
 import { ChatState } from "../../Context/ChatProvider";
 import {
-  createFavorite,
+  // toggleFavorite,
   getSender,
   getSenderPicture,
 } from "../../config/ChatLogics";
@@ -17,12 +17,16 @@ const MyChats = ({
   searchResult,
   user,
   setLoadingChat,
+  selectedChat,
   setSelectedChat,
+  chats,
+  setChats,
+  loggedUser,
+  setLoggedUser,
+  setRefreshTrigger,
 }) => {
-  const [loggedUser, setLoggedUser] = useState();
-  const { selectedChat, chats, setChats } = ChatState();
-
   const [selectedKebab, setSelectedKebab] = useState(false);
+  const [favorited, setFavorited] = useState(false);
 
   // const toast = useToast();
 
@@ -50,6 +54,7 @@ const MyChats = ({
     fetchChats();
   }, []);
 
+  console.log("Logged: ", loggedUser);
   const accessChat = async (userId) => {
     try {
       setLoadingChat(true);
@@ -75,11 +80,60 @@ const MyChats = ({
     }
   };
 
-  const handleKebab = (chatId, event) => {
+  const toggleFavorite = async (chatId) => {
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.token}` },
+      };
+
+      const { data } = await axios.put(
+        `/api/chat/favorite/${chatId}`,
+        {},
+        config
+      );
+      console.log("API response:", data);
+      if (!data || !data.favorites) {
+        throw new Error("Invalid response format");
+      }
+
+      // if (!data.ok) throw new Error("Failed to update favorite status");
+
+      setChats((prevChats) =>
+        prevChats.map((chat) =>
+          chat._id === chatId
+            ? { ...chat, favorites: data.favorites } // Update favorites array with response
+            : chat
+        )
+      );
+
+      setRefreshTrigger((prev) => !prev); // Toggle refreshTrigger to update Favorites.js
+    } catch (error) {
+      console.error("Error updating favorite status:", error);
+    }
+  };
+
+  const checkFavorite = (chat) => {
+    return chat.favorites.includes(loggedUser._id);
+  };
+
+  const handleKebab = (chat, event) => {
     event.stopPropagation();
 
-    setSelectedKebab(selectedKebab === chatId ? null : chatId);
+    setSelectedChat(chat);
+    setSelectedKebab(selectedKebab === chat._id ? null : chat._id);
   };
+
+  // Handle the kebab button being clicked outside
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (!event.target.closest(".kebab-chat-container")) {
+        setSelectedKebab(null);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
 
   if (!loggedUser) {
     return <div>Loading...</div>;
@@ -121,10 +175,12 @@ const MyChats = ({
           )}
         </button>
       </div>
-      <div className="contents-separater"></div>
+      <div className="contents-separater">
+        <div className="separater-line"></div>
+      </div>
       <div className="chat-container">
         <div
-          className="info-your-chats"
+          className="content-info"
           style={{ display: isAdding ? "none" : "flex" }}
         >
           your chats
@@ -169,7 +225,7 @@ const MyChats = ({
                 >
                   <button
                     className="kebab-button-chat"
-                    onClick={(e) => handleKebab(chat._id, e)}
+                    onClick={(e) => handleKebab(chat, e)}
                   >
                     {selectedKebab === chat._id ? (
                       <svg
@@ -198,7 +254,12 @@ const MyChats = ({
                   {selectedKebab === chat._id && (
                     <div className="kebab-options-group">
                       <button className="kebab-option-buttons">Delete</button>
-                      <button className="kebab-option-buttons">Favorite</button>
+                      <button
+                        className="kebab-option-buttons"
+                        onClick={() => toggleFavorite(chat._id)}
+                      >
+                        {!checkFavorite(chat) ? "Favorite" : "Unfavorite"}
+                      </button>
                       <button className="kebab-option-buttons">Mute</button>
 
                       {/* How to access the chats here */}
@@ -219,6 +280,7 @@ const MyChats = ({
         )}
       </div>
       <div className="chat-container">
+        <div className="content-info"></div>
         {hasSearched &&
           (loading ? (
             <ChatLoading />
