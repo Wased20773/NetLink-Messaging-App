@@ -1,7 +1,7 @@
 import React from "react";
 
-const SideDrawer = () => {
+const ChatBox = () => {
   return <div></div>;
 };
 
-export default SideDrawer;
+export default ChatBox;

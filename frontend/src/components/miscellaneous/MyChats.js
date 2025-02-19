@@ -8,6 +8,7 @@ import {
   getSender,
   getSenderPicture,
 } from "../../config/ChatLogics";
+import GroupChat from "./GroupChat";
 
 const MyChats = ({
   toggleAddUsersButton,
@@ -27,8 +28,7 @@ const MyChats = ({
 }) => {
   const [selectedKebab, setSelectedKebab] = useState(false);
   const [favorited, setFavorited] = useState(false);
-
-  // const toast = useToast();
+  const [clickedGroupChat, setClickedGroupChat] = useState(false);
 
   const fetchChats = async () => {
     // console.log(user._id);
@@ -54,7 +54,7 @@ const MyChats = ({
     fetchChats();
   }, []);
 
-  console.log("Logged: ", loggedUser);
+  // console.log("Logged: ", loggedUser);
   const accessChat = async (userId) => {
     try {
       setLoadingChat(true);
@@ -91,7 +91,7 @@ const MyChats = ({
         {},
         config
       );
-      console.log("API response:", data);
+      // console.log("API response:", data);
       if (!data || !data.favorites) {
         throw new Error("Invalid response format");
       }
@@ -110,6 +110,10 @@ const MyChats = ({
     } catch (error) {
       console.error("Error updating favorite status:", error);
     }
+  };
+
+  const toggleCreateGroupChat = () => {
+    setClickedGroupChat((prevState) => !prevState);
   };
 
   const checkFavorite = (chat) => {
@@ -143,7 +147,14 @@ const MyChats = ({
     <div id="Messages" className="tabcontent">
       {/* Add Button */}
       <div>
-        <button className="add-button" onClick={(e) => toggleAddUsersButton(e)}>
+        <button
+          className="add-button"
+          onClick={(e) => {
+            toggleAddUsersButton(e);
+            toggleCreateGroupChat(e);
+          }}
+        >
+          {console.log(clickedGroupChat)}
           {isAdding ? (
             <div className="svg-group-chat-button">
               <div>Go Back</div>
@@ -179,6 +190,7 @@ const MyChats = ({
         <div className="separater-line"></div>
       </div>
       <div className="chat-container">
+        {clickedGroupChat ? <GroupChat /> : ""}
         <div
           className="content-info"
           style={{ display: isAdding ? "none" : "flex" }}
@@ -263,12 +275,12 @@ const MyChats = ({
                       <button className="kebab-option-buttons">Mute</button>
 
                       {/* How to access the chats here */}
-                      {console.log(
+                      {/* {console.log(
                         "users name: ",
                         !chat.isGroupChat
                           ? getSender(loggedUser, chat.users)
                           : chat.chatName
-                      )}
+                      )} */}
                     </div>
                   )}
                 </div>

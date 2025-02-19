@@ -241,8 +241,6 @@ button:hover {
 }
 
 .picture-chat {
-  /* width: 40px;
-  height: 40px; */
   border-radius: 50%;
   padding: 0 15px 0 10px;
   /* border-bottom: 1px solid grey; */
@@ -251,6 +249,87 @@ button:hover {
 .kebab-chat-container {
   margin-left: auto;
   margin-right: 10px;
+}
+
+.create-group-chat-box {
+  /* height: 500px; */
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+
+  flex-direction: column;
+
+  padding: 15px;
+}
+
+.create-group-header {
+  padding-bottom: 15px;
+}
+
+.group-chat-group {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  flex-wrap: wrap; /* Allows wrapping when necessary */
+}
+
+.group-chat-input {
+  flex: 1;
+  min-width: 200px;
+  max-width: 100%;
+}
+
+.set-group-chat-name-button {
+  border: none;
+  border-radius: 0.25cm;
+  width: 50px;
+  background: var(--Mint);
+}
+
+.set-group-chat-name-button:hover {
+  background: var(--Sea-Green);
+}
+
+.added-users-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.added-users-to-group-chat-bubble {
+  display: flex;
+  font-size: 12px;
+  color: white;
+  background: var(--Gunmetal);
+  border: none;
+  border-radius: 0.25cm;
+  padding: 3px 5px 4px 5px;
+  margin: 1px 2px;
+}
+
+.remove-user-from-group-chat {
+  border: none;
+  background: none;
+  color: var(--Poppy);
+  padding: 0;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+.create-group-chat-button {
+  width: 80%;
+  height: 35px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 0.25cm;
+  background: var(--Mint);
+}
+
+.create-group-chat-button:hover {
+  background: var(--Sea-Green);
 }
 
 .contents-container {
