@@ -223,16 +223,12 @@ const deleteChat = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "Chat not found" });
     }
 
-    console.log("Checking if chat should be deleted:", chat);
-
     // Allow deleting a group chat that has only 2 users left
     if (chat.isGroupChat && chat.users.length > 2) {
       return res
         .status(400)
         .json({ message: "Cannot delete a group chat with more than 2 users" });
     }
-
-    console.log("Deleting chat:", chatId);
 
     await Chat.findByIdAndDelete(chatId);
     res.json({ message: "Chat deleted successfully" });
