@@ -123,6 +123,10 @@ const MyChats = ({
         },
       };
 
+      // make sure to remove the user from the favorite list before removing
+      // prevents chat from showing up in favorites tab
+      toggleFavorite(chat._id);
+
       if (chat.users.length === 2) {
         // Delete the chat (now works for one-on-one and small group chats)
         await axios.delete(`/api/chat/${chat._id}`, config);
