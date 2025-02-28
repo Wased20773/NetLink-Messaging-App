@@ -93,6 +93,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
       chatName: req.body.name,
       users: users,
       isGroupChat: true,
+      picture: req.body.picture,
       groupAdmin: req.user,
     });
 
@@ -211,6 +212,36 @@ const fetchFavorites = asyncHandler(async (req, res) => {
   }
 });
 
+// Delete a chat by ID (Only for 1-on-1 chats)
+const deleteChat = asyncHandler(async (req, res) => {
+  const { chatId } = req.params;
+
+  try {
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+
+    console.log("Checking if chat should be deleted:", chat);
+
+    // Allow deleting a group chat that has only 2 users left
+    if (chat.isGroupChat && chat.users.length > 2) {
+      return res
+        .status(400)
+        .json({ message: "Cannot delete a group chat with more than 2 users" });
+    }
+
+    console.log("Deleting chat:", chatId);
+
+    await Chat.findByIdAndDelete(chatId);
+    res.json({ message: "Chat deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting chat:", error);
+    res.status(500).json({ message: "Error deleting chat" });
+  }
+});
+
 module.exports = {
   accessChat,
   fetchChats,
@@ -220,4 +251,5 @@ module.exports = {
   removeFromGroup,
   toggleFavorite,
   fetchFavorites,
+  deleteChat,
 };

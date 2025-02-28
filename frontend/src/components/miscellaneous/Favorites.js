@@ -63,7 +63,12 @@ const Favorites = ({
             >
               <img
                 className="picture-chat"
-                src={getSenderPicture(loggedUser, chat.users)}
+                src={
+                  chat.isGroupChat
+                    ? chat.picture ||
+                      "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                    : getSenderPicture(loggedUser, chat.users)
+                }
                 alt="users profile picture"
                 width={40}
                 height={40}

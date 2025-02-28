@@ -11,6 +11,7 @@ const GroupChat = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userToAdd, setUserToAdd] = useState("");
+  const [picture, setPicture] = useState();
 
   const { user, chats, setChats } = ChatState();
 
@@ -37,13 +38,54 @@ const GroupChat = () => {
     }
   };
 
+  const postDetails = async (picture) => {
+    setLoading(true);
+    if (picture === undefined) {
+      console.warn("Please select an Image!");
+      setLoading(false);
+      return;
+    }
+    if (picture.type === "image/jpeg" || picture.type === "image/png") {
+      setLoading(true);
+      const data = new FormData();
+      data.append("file", picture);
+      data.append("upload_preset", "NetLink");
+      data.append("cloud_name", "netlink");
+      try {
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/netlink/image/upload",
+          { method: "POST", body: data }
+        );
+        const result = await res.json();
+        return result.url; // Return the image URL
+      } catch (error) {
+        console.error("Image upload failed", error);
+        return null;
+      }
+    } else {
+      console.warn("Please select an Image!");
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async () => {
-    if (!groupChatName || !selectedUsers) {
+    if (!groupChatName || !selectedUsers || !picture) {
       console.warn("Please fill in the blanks");
       return;
     }
 
     try {
+      let uploadedPicture = picture;
+
+      if (uploadedPicture instanceof File) {
+        uploadedPicture = await postDetails(uploadedPicture);
+        if (!uploadedPicture) {
+          console.warn("Image upload failed");
+          setLoading(false);
+          return;
+        }
+      }
+
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -55,9 +97,12 @@ const GroupChat = () => {
         {
           name: groupChatName,
           users: JSON.stringify(selectedUsers.map((u) => u._id)),
+          picture: uploadedPicture,
         },
         config
       );
+
+      console.log("API RESPONSE Data:", data);
 
       setChats([data, ...chats]);
       console.log("New Group Chat Created");
@@ -81,6 +126,13 @@ const GroupChat = () => {
   return (
     <div className="create-group-chat-box">
       <div className="create-group-header">Create group chat</div>
+      <input
+        className="group-chat-input-file"
+        type="file"
+        accept="image/*"
+        onChange={(e) => setPicture(e.target.files[0])}
+        required
+      />
       {/* Group Chat Name */}
       <div className="group-chat-group">
         <input
@@ -107,7 +159,6 @@ const GroupChat = () => {
           onChange={(e) => handleSearch(e.target.value)}
           required
         />
-        <button className="set-group-chat-name-button">set</button>
       </div>
       {/* Render search results */}
       {loading ? (

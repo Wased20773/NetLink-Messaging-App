@@ -8,6 +8,7 @@ const {
   removeFromGroup,
   toggleFavorite,
   fetchFavorites,
+  deleteChat,
 } = require("../controllers/chatControllers");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -21,6 +22,9 @@ router.route("/group").post(protect, createGroupChat);
 router.route("/rename").put(protect, renameGroup);
 router.route("/groupadd").put(protect, addToGroup);
 router.route("/groupremove").put(protect, removeFromGroup);
+
+// For Chat
+router.route("/:chatId").delete(protect, deleteChat);
 
 // For Favorites
 router.route("/favorite/:chatId").put(protect, toggleFavorite);

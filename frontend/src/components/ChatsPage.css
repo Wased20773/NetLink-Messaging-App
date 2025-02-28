@@ -48,6 +48,8 @@ button:hover {
   border-radius: 50%;
   background: none;
   margin-left: auto;
+
+  z-index: 100;
 }
 
 .kebab-button-chat:hover {
@@ -264,6 +266,23 @@ button:hover {
 
 .create-group-header {
   padding-bottom: 15px;
+}
+
+.chatbox {
+  height: 100%;
+}
+
+.chatbox-contents {
+  margin: 5px;
+  padding: 10px;
+  background-color: white;
+  border: none;
+  border-radius: 0.35cm;
+  height: 100%;
+}
+
+.group-chat-input-file {
+  margin-bottom: 10px;
 }
 
 .group-chat-group {

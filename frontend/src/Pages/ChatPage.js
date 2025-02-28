@@ -25,6 +25,8 @@ const ChatPage = () => {
   const [hasSearched, setHasSearched] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
 
+  const [fetchAgain, setFetchAgain] = useState(false);
+
   const toggleAddUsersButton = () => {
     if (hasSearched) {
       setHasSearched(false);
@@ -152,6 +154,7 @@ const ChatPage = () => {
             toggleAddUsersButton={toggleAddUsersButton}
             isAdding={isAdding}
             loading={loading}
+            setLoading={setLoading}
             hasSearched={hasSearched}
             searchResult={searchResult}
             user={user}
@@ -163,7 +166,8 @@ const ChatPage = () => {
             loggedUser={loggedUser}
             setLoggedUser={setLoggedUser}
             setRefreshTrigger={setRefreshTrigger}
-            // setLoadingChat={setLoadingChat}
+            fetchAgain={fetchAgain}
+            setFetchAgain={setFetchAgain}
           />
           <SearchBar />
           <Settings />
@@ -190,7 +194,7 @@ const ChatPage = () => {
         </div>
         {/* ChatBox Contents */}
         <div className="chatbox-content">
-          <ChatBox />
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         </div>
       </div>
     </div>

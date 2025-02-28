@@ -14,6 +14,7 @@ const MyChats = ({
   toggleAddUsersButton,
   isAdding,
   loading,
+  setLoading,
   hasSearched,
   searchResult,
   user,
@@ -25,11 +26,12 @@ const MyChats = ({
   loggedUser,
   setLoggedUser,
   setRefreshTrigger,
+  fetchAgain,
+  setFetchAgain,
 }) => {
   const [selectedKebab, setSelectedKebab] = useState(false);
   const [favorited, setFavorited] = useState(false);
   const [clickedGroupChat, setClickedGroupChat] = useState(false);
-
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -52,7 +54,7 @@ const MyChats = ({
     // console.log("userInfo: ", userInfo);
     setLoggedUser(userInfo); // Store logged-in user info
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   // console.log("Logged: ", loggedUser);
   const accessChat = async (userId) => {
@@ -109,6 +111,38 @@ const MyChats = ({
       setRefreshTrigger((prev) => !prev); // Toggle refreshTrigger to update Favorites.js
     } catch (error) {
       console.error("Error updating favorite status:", error);
+    }
+  };
+
+  const handleRemove = async (chat) => {
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      if (chat.users.length === 2) {
+        // Delete the chat (now works for one-on-one and small group chats)
+        await axios.delete(`/api/chat/${chat._id}`, config);
+        setSelectedChat(null);
+      } else if (chat.isGroupChat && chat.users.length > 2) {
+        // Remove user from group chat
+        await axios.put(
+          `/api/chat/groupremove`,
+          { chatId: chat._id, userId: user._id },
+          config
+        );
+
+        setSelectedChat(null);
+      }
+
+      setFetchAgain(!fetchAgain);
+    } catch (error) {
+      console.warn("Error: Could not leave/delete the chat", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -215,9 +249,15 @@ const MyChats = ({
                 }}
                 onClick={() => setSelectedChat(chat)}
               >
+                {/* Display image */}
                 <img
                   className="picture-chat"
-                  src={getSenderPicture(loggedUser, chat.users)}
+                  src={
+                    chat.isGroupChat
+                      ? chat.picture ||
+                        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+                      : getSenderPicture(loggedUser, chat.users)
+                  }
                   alt="users profile picture"
                   width={40}
                   height={40}
@@ -264,15 +304,28 @@ const MyChats = ({
 
                   {/* Kebab Menu Options */}
                   {selectedKebab === chat._id && (
-                    <div className="kebab-options-group">
-                      <button className="kebab-option-buttons">Delete</button>
+                    <div
+                      className="kebab-options-group"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <button
                         className="kebab-option-buttons"
-                        onClick={() => toggleFavorite(chat._id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemove(chat);
+                        }}
+                      >
+                        Leave
+                      </button>
+                      <button
+                        className="kebab-option-buttons"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(chat._id);
+                        }}
                       >
                         {!checkFavorite(chat) ? "Favorite" : "Unfavorite"}
                       </button>
-                      <button className="kebab-option-buttons">Mute</button>
 
                       {/* How to access the chats here */}
                       {/* {console.log(
