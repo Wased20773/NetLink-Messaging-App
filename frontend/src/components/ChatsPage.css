@@ -269,16 +269,66 @@ button:hover {
 }
 
 .chatbox {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-.chatbox-contents {
-  margin: 5px;
-  padding: 10px;
-  background-color: white;
-  border: none;
-  border-radius: 0.35cm;
-  height: 100%;
+.chatbox-message-space {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Takes up all available space */
+}
+
+.chatbox-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.messages-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background-color: var(--Silver);
+
+  border-radius: 0.25cm;
+}
+
+.messages {
+  margin: 10px;
+  padding: 5px;
+  margin-bottom: 0;
+  flex-grow: 1; /* Messages fill up the available space */
+  overflow-y: auto; /* Allows scrolling */
+}
+
+.message-input-container {
+  position: sticky;
+  bottom: 0;
+  z-index: 10; /* keeps it ontop of messages */
+
+  padding: 8px 5px;
+  padding-top: 0;
+  border-radius: 0.25cm;
+  background-color: var(--Silver);
+}
+
+.message-input-divider {
+  border: 1px solid var(--OuterSpace);
+  border-radius: 1cm;
+  margin-bottom: 3px;
+}
+
+.message-input-container input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0.2cm;
+  box-sizing: border-box;
 }
 
 .group-chat-input-file {
@@ -424,9 +474,9 @@ button:hover {
 }
 
 .chatbox-content {
-  background: url("../images/ChatBoxWallpapers/EmojieMessage.avif");
-  background-size: contain;
+  background: white;
   flex: 1; /* Take up remaining vertical space */
   overflow-y: auto; /* Enable scrolling for the chatbox content */
+  overflow-x: hidden; /* Enable scrolling for the chatbox content */
   /* padding: 10px; */
 }

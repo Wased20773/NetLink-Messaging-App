@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ChatLoading from "../ChatLoading";
+import SearchChatsLoading from "../Loaders/SearchChatLoading";
 import UserListItem from "../userAvatar/UserListItem";
 import axios from "axios";
 import { ChatState } from "../../Context/ChatProvider";
@@ -345,14 +345,14 @@ const MyChats = ({
             ))}
           </div>
         ) : (
-          <ChatLoading />
+          <SearchChatsLoading />
         )}
       </div>
       <div className="chat-container">
         <div className="content-info"></div>
         {hasSearched &&
           (loading ? (
-            <ChatLoading />
+            <SearchChatsLoading />
           ) : (
             searchResult?.map((user) => (
               <UserListItem
