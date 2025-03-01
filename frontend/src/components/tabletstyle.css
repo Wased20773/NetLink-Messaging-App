@@ -1,0 +1,9 @@
+@media (max-width: 1014px) {
+  .contents-container {
+    width: 200px;
+  }
+
+  .add-button {
+    width: 150px;
+  }
+}

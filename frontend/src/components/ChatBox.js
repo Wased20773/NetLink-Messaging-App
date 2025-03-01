@@ -3,6 +3,8 @@ import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import MessageChatLoading from "./Loaders/MessageChatLoading";
 import axios from "axios";
+import "./tabletstyle.css";
+import Messages from "./Messages";
 
 const ChatBox = (fetchAgain, setFetchAgain) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
@@ -10,6 +12,10 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
   const [newMessage, setNewMessage] = useState();
 
   const [loading, setLoading] = useState(false);
+
+  const handleExit = () => {
+    setSelectedChat(null);
+  };
 
   const fetchMessages = async (event) => {
     if (!selectedChat) return;
@@ -82,6 +88,7 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
         <div className="chatbox-message-space">
           {!selectedChat.isGroupChat ? (
             <div className="chatbox-name">
+              <button onClick={handleExit}>exit</button>
               {getSender(user, selectedChat.users)}
             </div>
           ) : (
@@ -92,54 +99,7 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
             {loading ? (
               <MessageChatLoading />
             ) : (
-              <div className="messages">
-                <div>Messages</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-                <div>Ok, bye-bye</div>
-                <div>Yo</div>
-                <div>This is a test</div>
-                <div>Realy?</div>
-                <div>Yes Really!</div>
-              </div>
+              <Messages messages={messages} />
             )}
             {/* Input Field For Message Sending */}
             <div className="message-input-container">
@@ -158,7 +118,9 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
           </div>
         </div>
       ) : (
-        <div>No Chat Selected</div>
+        <div className="messages-container-chat-not-selected">
+          <div className="circle">No Chat Selected</div>
+        </div>
       )}
     </div>
   );

@@ -159,8 +159,6 @@ const ChatPage = () => {
             searchResult={searchResult}
             user={user}
             setLoadingChat={setLoadingChat}
-            selectedChat={selectedChat}
-            setSelectedChat={setSelectedChat}
             chats={chats}
             setChats={setChats}
             loggedUser={loggedUser}

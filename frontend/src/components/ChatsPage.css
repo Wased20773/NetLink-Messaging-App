@@ -100,6 +100,8 @@ button:hover {
   width: 80px;
   border-right: 5px solid var(--DarkMint);
   background: var(--Mint);
+  overflow-y: auto;
+  overflow-x: hidden;
   /* background: linear-gradient(to bottom, var(--Mint), var(--DarkMint)); */
 }
 
@@ -137,6 +139,7 @@ button:hover {
   border-radius: 0.25cm;
   width: 200px;
   margin: 20px 0 10px 0;
+  padding: 1px 10px 1px 10px;
 }
 
 .add-button:hover {
@@ -291,7 +294,7 @@ button:hover {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: end;
   position: relative;
   background-color: var(--Silver);
 
@@ -302,15 +305,44 @@ button:hover {
   margin: 10px;
   padding: 5px;
   margin-bottom: 0;
-  flex-grow: 1; /* Messages fill up the available space */
-  overflow-y: auto; /* Allows scrolling */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-message,
+.sender-message {
+  display: inline-block;
+  border-radius: 0.25cm;
+  padding: 10px;
+}
+.user-message {
+  background-color: var(--Tufts-Blue);
+  margin: 0;
+}
+.sender-message {
+  background-color: white;
+}
+.sender-name {
+  color: white;
+  margin-left: 8px;
+}
+
+.user,
+.sender {
+  max-width: 75%;
+}
+.user {
+  align-self: flex-end;
+}
+
+.sender {
+  align-self: flex-start;
 }
 
 .message-input-container {
   position: sticky;
   bottom: 0;
-  z-index: 10; /* keeps it ontop of messages */
-
   padding: 8px 5px;
   padding-top: 0;
   border-radius: 0.25cm;
@@ -329,6 +361,33 @@ button:hover {
   border: 1px solid #ccc;
   border-radius: 0.2cm;
   box-sizing: border-box;
+}
+
+.messages-container-chat-not-selected {
+  flex: 1;
+
+  margin: 10px;
+  background-color: var(--Silver);
+  border-radius: 0.25cm;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  flex-direction: column-reverse;
+
+  background-color: white;
 }
 
 .group-chat-input-file {

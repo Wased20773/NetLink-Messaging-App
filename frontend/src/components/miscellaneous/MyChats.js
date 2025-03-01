@@ -19,8 +19,6 @@ const MyChats = ({
   searchResult,
   user,
   setLoadingChat,
-  selectedChat,
-  setSelectedChat,
   chats,
   setChats,
   loggedUser,
@@ -29,6 +27,7 @@ const MyChats = ({
   fetchAgain,
   setFetchAgain,
 }) => {
+  const { selectedChat, setSelectedChat } = ChatState();
   const [selectedKebab, setSelectedKebab] = useState(false);
   const [favorited, setFavorited] = useState(false);
   const [clickedGroupChat, setClickedGroupChat] = useState(false);
@@ -80,6 +79,15 @@ const MyChats = ({
     } catch (error) {
       console.warn("Error fetching the chat");
     }
+  };
+
+  const HandleSelectedChat = (chat) => {
+    if (selectedChat === chat) {
+      // if the same chat was selected again,
+      setSelectedChat(null);
+      return;
+    }
+    setSelectedChat(chat);
   };
 
   const toggleFavorite = async (chatId) => {
@@ -161,7 +169,6 @@ const MyChats = ({
   const handleKebab = (chat, event) => {
     event.stopPropagation();
 
-    setSelectedChat(chat);
     setSelectedKebab(selectedKebab === chat._id ? null : chat._id);
   };
 
@@ -243,7 +250,7 @@ const MyChats = ({
                 style={{
                   backgroundColor:
                     selectedChat && selectedChat._id === chat._id
-                      ? "rgb(58, 137, 206)"
+                      ? "rgb(58, 137, 206)" // tuffs-blue
                       : "white",
                   color:
                     selectedChat && selectedChat._id === chat._id
@@ -251,7 +258,7 @@ const MyChats = ({
                       : "black",
                   display: isAdding ? "none" : "flex",
                 }}
-                onClick={() => setSelectedChat(chat)}
+                onClick={() => HandleSelectedChat(chat)}
               >
                 {/* Display image */}
                 <img
