@@ -83,13 +83,13 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
 
   return (
     <div className="chatbox">
-      {/* Chat Name */}
       {selectedChat ? (
         <div className="chatbox-message-space">
           {!selectedChat.isGroupChat ? (
+            // Chat Name
             <div className="chatbox-name">
-              <button onClick={handleExit}>exit</button>
-              {getSender(user, selectedChat.users)}
+              {/* <button onClick={handleExit}>exit</button> */}
+              {/* {getSender(user, selectedChat.users)} */}
             </div>
           ) : (
             <div className="chatbox-name">{selectedChat.chatName}</div>
