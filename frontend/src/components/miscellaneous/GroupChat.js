@@ -11,6 +11,7 @@ const GroupChat = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [userToAdd, setUserToAdd] = useState("");
   const [picture, setPicture] = useState();
 
@@ -40,14 +41,11 @@ const GroupChat = () => {
   };
 
   const postDetails = async (picture) => {
-    setLoading(true);
     if (picture === undefined) {
       console.warn("Please select an Image!");
-      setLoading(false);
       return;
     }
     if (picture.type === "image/jpeg" || picture.type === "image/png") {
-      setLoading(true);
       const data = new FormData();
       data.append("file", picture);
       data.append("upload_preset", "NetLink");
@@ -65,7 +63,6 @@ const GroupChat = () => {
       }
     } else {
       console.warn("Please select an Image!");
-      setLoading(false);
     }
   };
 
@@ -75,7 +72,7 @@ const GroupChat = () => {
       return;
     }
 
-    setLoading(true);
+    setLoadingSubmit(true);
 
     try {
       let uploadedPicture = picture;
@@ -84,7 +81,7 @@ const GroupChat = () => {
         uploadedPicture = await postDetails(uploadedPicture);
         if (!uploadedPicture) {
           console.warn("Image upload failed");
-          setLoading(false);
+          setLoadingSubmit(false);
           return;
         }
       }
@@ -109,10 +106,10 @@ const GroupChat = () => {
 
       setChats([data, ...chats]);
 
-      setLoading(false);
+      setLoadingSubmit(false);
       console.log("New Group Chat Created");
     } catch (error) {
-      setLoading(false);
+      setLoadingSubmit(false);
       console.warn("Failed to Create the Group Chat!");
     }
   };
@@ -203,7 +200,7 @@ const GroupChat = () => {
         ))}
       </div>
       <button className="create-group-chat-button" onClick={handleSubmit}>
-        {loading ? (
+        {loadingSubmit ? (
           <div className="circle-loader-container">
             <div className="circle-loader"></div>
           </div>

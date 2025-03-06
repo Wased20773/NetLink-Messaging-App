@@ -340,7 +340,111 @@ button:hover {
 .chatbox-name {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.exit-chat-button,
+.users-button {
+  border: none;
+  width: 80px;
+  height: 30px;
+  border-radius: 0.25cm;
+}
+
+.exit-chat-button:hover,
+.users-button:hover {
+  background-color: var(--Azul);
+}
+
+.exit-chat-button {
+  background-color: var(--Tufts-Blue);
+}
+
+.users-button {
+  background-color: var(--Tufts-Blue);
+}
+
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  display: flex;
   justify-content: center;
+  align-items: center;
+  z-index: 10;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal-container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  border-radius: 0.25cm;
+  border: 3px solid var(--Silver);
+  background: white;
+  text-align: center;
+
+  padding: 20px;
+  min-width: 100px;
+  width: 350px;
+
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-overlay.show .modal {
+  transform: scale(1);
+}
+
+.modal h2 {
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
+}
+
+.list-users-container {
+  background-color: var(--Silver);
+  border-radius: 0.25cm;
+  padding: 10px;
+}
+
+.list-users {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  border-radius: 1cm;
+}
+
+.list-users:last-child {
+  margin-bottom: 0;
+}
+
+.exit-modal-button {
+  border: none;
+  border-radius: 0.25cm;
+  background: var(--Poppy);
+  color: white;
+  padding: 10px 50px;
+}
+
+.exit-modal-button:hover {
+  background: var(--Fire-Engine-Red);
 }
 
 .messages-container {

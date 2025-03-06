@@ -143,7 +143,6 @@ const ChatPage = () => {
         {/* Contents */}
         <div className="contents-of-sidebar">
           <Account />
-          <DarkOrLight />
           <Favorites
             user={user}
             loggedUser={loggedUser}

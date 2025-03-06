@@ -85,35 +85,6 @@ const SideBar = () => {
         </button>
       </div>
 
-      {/* DarkMode Button & LightMode Button*/}
-      <div className="sidebar-button">
-        <button className="tab-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="25px"
-            viewBox="0 -960 960 960"
-            width="25px"
-            fill="black"
-            blue
-          >
-            <path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z" />
-          </svg>
-        </button>
-      </div>
-      <div className="sidebar-button">
-        <button className="tab-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="25px"
-            viewBox="0 -960 960 960"
-            width="25px"
-            fill="black"
-          >
-            <path d="M480-346.67q55.33 0 94.33-39t39-94.33q0-55.33-39-94.33t-94.33-39q-55.33 0-94.33 39t-39 94.33q0 55.33 39 94.33t94.33 39Zm0 66.67q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-446.67H40v-66.66h160v66.66Zm720 0H760v-66.66h160v66.66ZM446.67-760v-160h66.66v160h-66.66Zm0 720v-160h66.66v160h-66.66ZM260-655.33l-100.33-97 47.66-49 96 100-43.33 46Zm493.33 496-97.66-100.34 45-45.66 99.66 97.66-47 48.34Zm-98.66-541.34 97.66-99.66 49 47L702-656l-47.33-44.67ZM159.33-207.33 259-305l46.33 45.67-97.66 99.66-48.34-47.66ZM480-480Z" />
-          </svg>
-        </button>
-      </div>
-
       {/* Account Button */}
       <div className="sidebar-button">
         <div className="account-button">

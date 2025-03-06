@@ -5,6 +5,7 @@ import MessageChatLoading from "./Loaders/MessageChatLoading";
 import axios from "axios";
 import "./tabletstyle.css";
 import Messages from "./Messages";
+import ListUsersName from "./userAvatar/ListUsersName";
 
 const ChatBox = (fetchAgain, setFetchAgain) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
@@ -12,10 +13,6 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
   const [newMessage, setNewMessage] = useState();
 
   const [loading, setLoading] = useState(false);
-
-  const handleExit = () => {
-    setSelectedChat(null);
-  };
 
   const fetchMessages = async (event) => {
     if (!selectedChat) return;
@@ -94,11 +91,10 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
           {!selectedChat.isGroupChat ? (
             // Chat Name
             <div className="chatbox-name">
-              {/* <button onClick={handleExit}>exit</button> */}
               {/* {getSender(user, selectedChat.users)} */}
             </div>
           ) : (
-            <div className="chatbox-name">{selectedChat.chatName}</div>
+            <ListUsersName />
           )}
           {/* Messages go here */}
           <div className="messages-container">

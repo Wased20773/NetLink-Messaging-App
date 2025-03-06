@@ -31,7 +31,9 @@ const MyChats = ({
   const { selectedChat, setSelectedChat } = ChatState();
   const [selectedKebab, setSelectedKebab] = useState(false);
   const [loadingChat, setLoadingChat] = useState({});
+
   const fetchChats = async () => {
+    setLoading(true);
     // console.log(user._id);
     try {
       const config = {
@@ -43,7 +45,9 @@ const MyChats = ({
       const { data } = await axios.get("/api/chat", config);
       // console.log(data);
       setChats(data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.warn("Failed to load the chats");
     }
   };
@@ -247,7 +251,7 @@ const MyChats = ({
         >
           your chats
         </div>
-        {chats ? (
+        {chats && !loading ? (
           <div>
             {chats.map((chat) => (
               <div
@@ -357,23 +361,23 @@ const MyChats = ({
             ))}
           </div>
         ) : (
-          <SearchChatsLoading />
+          <div>
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+            <SearchChatsLoading />
+          </div>
         )}
       </div>
       <div className="chat-container">
         <div className="content-info"></div>
         {hasSearched &&
           (loading ? (
-            <div>
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-              <SearchChatsLoading />
-            </div>
+            <div></div>
           ) : (
             searchResult?.map((user) => (
               <UserListItem
