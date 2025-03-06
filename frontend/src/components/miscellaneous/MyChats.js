@@ -18,7 +18,6 @@ const MyChats = ({
   hasSearched,
   searchResult,
   user,
-  setLoadingChat,
   chats,
   setChats,
   loggedUser,
@@ -26,11 +25,12 @@ const MyChats = ({
   setRefreshTrigger,
   fetchAgain,
   setFetchAgain,
+  clickedGroupChat,
+  setClickedGroupChat,
 }) => {
   const { selectedChat, setSelectedChat } = ChatState();
   const [selectedKebab, setSelectedKebab] = useState(false);
-  const [favorited, setFavorited] = useState(false);
-  const [clickedGroupChat, setClickedGroupChat] = useState(false);
+  const [loadingChat, setLoadingChat] = useState({});
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -58,7 +58,7 @@ const MyChats = ({
   // console.log("Logged: ", loggedUser);
   const accessChat = async (userId) => {
     try {
-      setLoadingChat(true);
+      setLoadingChat((prev) => ({ ...prev, [userId]: true }));
 
       const config = {
         headers: {
@@ -74,7 +74,7 @@ const MyChats = ({
       }
 
       setSelectedChat(data);
-      setLoadingChat(false);
+      setLoadingChat((prev) => ({ ...prev, [userId]: false }));
       onclose();
     } catch (error) {
       console.warn("Error fetching the chat");
@@ -159,6 +159,11 @@ const MyChats = ({
   };
 
   const toggleCreateGroupChat = () => {
+    if (hasSearched) return;
+    if (hasSearched && clickedGroupChat) {
+      setClickedGroupChat(false);
+      return;
+    }
     setClickedGroupChat((prevState) => !prevState);
   };
 
@@ -235,7 +240,7 @@ const MyChats = ({
         <div className="separater-line"></div>
       </div>
       <div className="chat-container">
-        {clickedGroupChat ? <GroupChat /> : ""}
+        {clickedGroupChat && !hasSearched ? <GroupChat /> : ""}
         <div
           className="content-info"
           style={{ display: isAdding ? "none" : "flex" }}
@@ -359,14 +364,24 @@ const MyChats = ({
         <div className="content-info"></div>
         {hasSearched &&
           (loading ? (
-            <SearchChatsLoading />
+            <div>
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+              <SearchChatsLoading />
+            </div>
           ) : (
             searchResult?.map((user) => (
               <UserListItem
                 key={user._id}
                 user={user}
                 handleFunction={() => accessChat(user._id)}
-                isDisabled={loading} // disables button when clicked
+                loadingChat={loadingChat[user._id] || false}
+                buttonMessage={"Start Chat"}
               />
             ))
           ))}

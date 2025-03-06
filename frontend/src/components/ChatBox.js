@@ -81,6 +81,12 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
     // Typing Indicator Logic
   };
 
+  const adjustHeight = (e) => {
+    e.target.style.height = "auto";
+
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
   return (
     <div className="chatbox">
       {selectedChat ? (
@@ -105,13 +111,15 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
             <div className="message-input-container">
               <div className="message-input-divider"></div>
               <form onSubmit={sendMessage} isRequired>
-                <input
-                  type="text"
+                <textarea
+                  className="message-textarea"
                   name="message"
                   id="message"
                   onChange={typingHandler}
+                  onInput={adjustHeight}
                   value={newMessage}
                   placeholder="Enter a Message..."
+                  rows="1"
                 />
               </form>
             </div>

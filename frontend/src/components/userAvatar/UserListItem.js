@@ -1,6 +1,6 @@
 import React from "react";
-
-const UserListItem = ({ user, handleFunction }) => {
+import CircleLoading from "../Loaders/CircleLoading";
+const UserListItem = ({ user, handleFunction, loadingChat, buttonMessage }) => {
   return (
     <div className="chat-button">
       <img
@@ -13,9 +13,17 @@ const UserListItem = ({ user, handleFunction }) => {
 
       <div>{user.name}</div>
 
-      <button className="add-user-button" onClick={handleFunction}>
-        Start Chat
-      </button>
+      {loadingChat ? (
+        <div className="add-user-button">
+          <div className="circle-loader-container">
+            <CircleLoading />
+          </div>
+        </div>
+      ) : (
+        <button className="add-user-button" onClick={handleFunction}>
+          {buttonMessage}
+        </button>
+      )}
     </div>
   );
 };

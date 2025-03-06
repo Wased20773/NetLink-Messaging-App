@@ -18,12 +18,12 @@ const ChatPage = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState(false);
 
   const [isDataReady, setIsDataReady] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(false);
+  const [clickedGroupChat, setClickedGroupChat] = useState(false);
 
   const [fetchAgain, setFetchAgain] = useState(false);
 
@@ -61,6 +61,7 @@ const ChatPage = () => {
       setHasSearched(false);
       return;
     }
+    setClickedGroupChat(false);
 
     console.log("Searching for", search);
     setHasSearched(true);
@@ -158,7 +159,6 @@ const ChatPage = () => {
             hasSearched={hasSearched}
             searchResult={searchResult}
             user={user}
-            setLoadingChat={setLoadingChat}
             chats={chats}
             setChats={setChats}
             loggedUser={loggedUser}
@@ -166,6 +166,8 @@ const ChatPage = () => {
             setRefreshTrigger={setRefreshTrigger}
             fetchAgain={fetchAgain}
             setFetchAgain={setFetchAgain}
+            clickedGroupChat={clickedGroupChat}
+            setClickedGroupChat={setClickedGroupChat}
           />
           <SearchBar />
           <Settings />

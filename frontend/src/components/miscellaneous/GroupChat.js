@@ -3,6 +3,7 @@ import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
 import UserListItem from "../userAvatar/UserListItem";
 import UserBadgeItem from "../userAvatar/UserBadgeItem";
+import SearchChatsLoading from "../Loaders/SearchChatLoading";
 
 const GroupChat = () => {
   const [groupChatName, setgroupChatName] = useState();
@@ -74,6 +75,8 @@ const GroupChat = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       let uploadedPicture = picture;
 
@@ -105,8 +108,11 @@ const GroupChat = () => {
       console.log("API RESPONSE Data:", data);
 
       setChats([data, ...chats]);
+
+      setLoading(false);
       console.log("New Group Chat Created");
     } catch (error) {
+      setLoading(false);
       console.warn("Failed to Create the Group Chat!");
     }
   };
@@ -145,7 +151,6 @@ const GroupChat = () => {
           onChange={(e) => setgroupChatName(e.target.value)}
           required
         />
-        <button className="set-group-chat-name-button">set</button>
       </div>
       {/* Users to Add */}
       <div className="group-chat-group">
@@ -162,15 +167,26 @@ const GroupChat = () => {
       </div>
       {/* Render search results */}
       {loading ? (
-        <div>loading</div>
+        <div>
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+          <SearchChatsLoading />
+        </div>
       ) : (
         searchResult
-          ?.slice(0, 4)
+          ?.filter((user) => !selectedUsers.some((u) => u._id === user._id)) // Filter out all the selected users
+          .slice(0, 4)
           .map((user) => (
             <UserListItem
               key={user._id}
               user={user}
               handleFunction={() => handleGroup(user)}
+              buttonMessage="Add"
             />
           ))
       )}
@@ -187,7 +203,13 @@ const GroupChat = () => {
         ))}
       </div>
       <button className="create-group-chat-button" onClick={handleSubmit}>
-        Create
+        {loading ? (
+          <div className="circle-loader-container">
+            <div className="circle-loader"></div>
+          </div>
+        ) : (
+          "Create"
+        )}
       </button>
     </div>
   );

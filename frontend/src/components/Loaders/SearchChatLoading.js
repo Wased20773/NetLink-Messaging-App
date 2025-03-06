@@ -4,7 +4,7 @@ const SearchChatsLoading = () => {
   return (
     <div className="chat-button">
       {/* Picture Template */}
-      <img className="picture-tempate" width={40} height={40} />
+      <img className="picture-template" width={40} height={40} />
 
       {/* Name Template */}
       <div className="name-template"></div>
