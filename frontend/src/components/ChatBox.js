@@ -6,11 +6,16 @@ import axios from "axios";
 import "./tabletstyle.css";
 import Messages from "./Messages";
 import ListUsersName from "./userAvatar/ListUsersName";
+import io from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+var socket, selectedChatCompare;
 
 const ChatBox = (fetchAgain, setFetchAgain) => {
   const { user, selectedChat, setSelectedChat } = ChatState();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState();
+  const [socketConnected, setSocketConnected] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -35,14 +40,37 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
 
       setMessages(data);
       setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       console.warn("Error Occured: could not get the chat messages");
     }
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
+
+    selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageRecieved.chat._id
+      ) {
+        // give notification
+      } else {
+        setMessages([...messages, newMessageRecieved]);
+      }
+    });
+  });
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -66,12 +94,14 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
 
         // console.log("Message Sent Data: ", data);
 
+        socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
         console.warn("Failed to send the Message");
       }
     }
   };
+
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 

@@ -28,16 +28,45 @@ app.use("/api/message", messageRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// app.get("/api/chat", (req, res) => {
-//   res.send(chats);
-// });
-
-// app.get("/api/chat/:id", (req, res) => {
-//   //   console.log(req.params.id);
-//   const singleChat = chats.find((c) => c._id === req.params.id);
-//   res.send(singleChat);
-// });
-
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server Started on PORT ${PORT}`.yellow.bold));
+const server = app.listen(
+  PORT,
+  console.log(`Server Started on PORT ${PORT}`.yellow.bold)
+);
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000, // waits 60 seconds before it closes connection
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
+
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    console.log(userData._id);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (roomId) => {
+    socket.join(roomId);
+    console.log("user joined room: " + roomId);
+  });
+
+  socket.on("new message", (newMessageRecieved) => {
+    var chat = newMessageRecieved.chat;
+
+    // for testing
+    if (!chat.users) return console.log("chat.users not defined");
+
+    chat.users.forEach((user) => {
+      // if the user is the one who sent it, no need to emit message
+      if (user._id == newMessageRecieved.sender._id) return;
+
+      socket.in(user._id).emit("message recieved", newMessageRecieved);
+    });
+  });
+});
