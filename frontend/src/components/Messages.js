@@ -45,7 +45,7 @@ const Messages = ({ messages }) => {
             )}
           </div>
         ))}
-      <div ref={lastMessageRef} className="to-the-bottom" />
+      <div ref={lastMessageRef} />
     </div>
   );
 };

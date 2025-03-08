@@ -575,11 +575,6 @@ button:hover {
   background-color: white;
 }
 
-.to-the-bottom {
-  visibility: hidden;
-  /* height: 20px; */
-}
-
 .group-chat-input-file {
   margin-bottom: 10px;
 }

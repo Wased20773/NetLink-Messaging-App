@@ -7,7 +7,11 @@ import { MemoryRouter } from "react-router-dom";
 jest.mock("axios");
 
 beforeEach(() => {
-  jest.resetAllMocks(); // Reset mocks between tests to avoid side effects
+  jest.resetAllMocks();
+  Element.prototype.scrollIntoView = jest.fn();
+});
+afterAll(() => {
+  jest.restoreAllMocks();
 });
 
 describe("Message", () => {
