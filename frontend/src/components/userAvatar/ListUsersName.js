@@ -51,36 +51,6 @@ const ListUsersName = () => {
           </div>
         </div>
       </div>
-      {/* {isModalOpen && (
-        <div className="modal-container">
-          <div className="modal">
-            <button
-              className="exit-modal-button"
-              onClick={handleUserListButton}
-            >
-              exit
-            </button>
-            <h2>Group Chat Users</h2>
-            <div>
-              {selectedChat?.users
-                ?.filter((chatUser) => chatUser._id !== user._id) // Filter out logged-in user
-                .map((user) => (
-                  <div className="list-users" key={user._id}>
-                    <div>
-                      <img
-                        className="picture-chat"
-                        src={user.picture}
-                        width={30}
-                        height={30}
-                      />
-                      {user.name}
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

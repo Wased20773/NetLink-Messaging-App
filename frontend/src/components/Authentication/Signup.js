@@ -135,6 +135,7 @@ const Signup = ({ toggleForm }) => {
         placeholder="Email Address*"
         onChange={(e) => setEmail(e.target.value)}
         required
+        maxLength={18}
       />
 
       {/* Password */}

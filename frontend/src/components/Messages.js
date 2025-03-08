@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ChatState } from "../Context/ChatProvider";
 import { getFormatedDate } from "../config/ChatLogics";
+
 const Messages = ({ messages }) => {
   const { user } = ChatState();
+  const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "instant",
+        block: "end",
+      });
+    }
+  }, [messages]);
+
   console.log(messages);
   return (
     <div>
@@ -33,6 +45,7 @@ const Messages = ({ messages }) => {
             )}
           </div>
         ))}
+      <div ref={lastMessageRef} className="to-the-bottom" />
     </div>
   );
 };
