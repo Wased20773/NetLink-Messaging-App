@@ -31,7 +31,7 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
         config
       );
 
-      console.log("Messages fetched: ", messages);
+      // console.log("Messages fetched: ", messages);
 
       setMessages(data);
       setLoading(false);
@@ -64,7 +64,7 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
           config
         );
 
-        console.log("Message Sent Data: ", data);
+        // console.log("Message Sent Data: ", data);
 
         setMessages([...messages, data]);
       } catch (error) {
@@ -106,13 +106,23 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
             {/* Input Field For Message Sending */}
             <div className="message-input-container">
               <div className="message-input-divider"></div>
-              <form onSubmit={sendMessage} isRequired>
+              <form
+                data-testid="send-message"
+                onSubmit={sendMessage}
+                isRequired
+              >
                 <textarea
                   className="message-textarea"
                   name="message"
                   id="message"
                   onChange={typingHandler}
                   onInput={adjustHeight}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault(); // Prevents a new line
+                      sendMessage(e); // Submits the form
+                    }
+                  }}
                   value={newMessage}
                   placeholder="Enter a Message..."
                   rows="1"

@@ -99,12 +99,15 @@ const Login = ({ toggleForm }) => {
 
       {/* Signin Button */}
       <div className="button-group">
-        <input
+        <button
+          data-testid="login-button"
+          name="login"
           className="submit-button"
           type="submit"
           value="Login"
-          isLoading={loading}
-        />
+        >
+          {loading ? "Loading..." : "Login"}
+        </button>
       </div>
 
       {/* Guest Signin Button */}
