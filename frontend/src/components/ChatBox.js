@@ -7,6 +7,7 @@ import "./tabletstyle.css";
 import Messages from "./Messages";
 import ListUsersName from "./userAvatar/ListUsersName";
 import io from "socket.io-client";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const ENDPOINT = "http://localhost:5000";
 var socket, selectedChatCompare;
@@ -16,6 +17,8 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState();
   const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
@@ -50,7 +53,9 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
-    socket.on("connection", () => setSocketConnected(true));
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
   }, []);
 
   useEffect(() => {
@@ -75,6 +80,7 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
   const sendMessage = async (event) => {
     event.preventDefault();
     if (newMessage) {
+      socket.emit("stop typing", selectedChat._id);
       try {
         const config = {
           headers: {
@@ -106,6 +112,25 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
     setNewMessage(e.target.value);
 
     // Typing Indicator Logic
+    if (!socketConnected) return;
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+    }
+
+    // how long to show typing
+    let lastTypingTime = new Date().getTime();
+    var timerLength = 2000; // 2 seconds
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDifference = timeNow - lastTypingTime;
+
+      if (timeDifference >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength);
   };
 
   const adjustHeight = (e) => {
@@ -141,6 +166,18 @@ const ChatBox = (fetchAgain, setFetchAgain) => {
                 onSubmit={sendMessage}
                 isRequired
               >
+                {isTyping ? (
+                  <div className="animation-container">
+                    <DotLottieReact
+                      src="https://lottie.host/a4aba2fd-a5f8-43a1-a726-ff1c449f53f9/PaW6p8zBEK.lottie"
+                      loop
+                      autoplay
+                      className="typing-indicator"
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <textarea
                   className="message-textarea"
                   name="message"
