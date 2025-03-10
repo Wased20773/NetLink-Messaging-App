@@ -5,8 +5,6 @@ import ChatBox from "../components/ChatBox";
 import Account from "../components/miscellaneous/Account";
 import Favorites from "../components/miscellaneous/Favorites";
 import MyChats from "../components/miscellaneous/MyChats";
-import SearchBar from "../components/miscellaneous/SearchBar";
-import Settings from "../components/miscellaneous/Settings";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -168,8 +166,6 @@ const ChatPage = () => {
             clickedGroupChat={clickedGroupChat}
             setClickedGroupChat={setClickedGroupChat}
           />
-          <SearchBar />
-          <Settings />
         </div>
       </div>
 
