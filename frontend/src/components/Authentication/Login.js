@@ -109,19 +109,6 @@ const Login = ({ toggleForm }) => {
           {loading ? "Loading..." : "Login"}
         </button>
       </div>
-
-      {/* Guest Signin Button */}
-      <div className="button-group">
-        <input
-          className="guest-button"
-          type="button"
-          value="Guest Login"
-          onClick={() => {
-            setEmail("guest@example.com");
-            setPassword("123456");
-          }}
-        />
-      </div>
     </form>
   );
 };
